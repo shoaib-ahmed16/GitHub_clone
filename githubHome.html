@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/github.css">
+    <style>
+        #body
+        {
+            display: flex;
+        }
+        #left_portion
+        {
+            width:25%;
+        }
+        #rigth_portion
+        {
+            width: 74%;
+            border: 1px solid red;
+            height: 700px;
+        }
+        #put_username_image
+        {
+            border: 1px solid transparent;
+            margin-top: 80px;
+            margin-left: 40px;
+            display: flex
+        }
+        #set_image_size
+        {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            margin-right: 10px;
+        }
+        #name_Resize
+        {
+            padding-top: 5px;
+            width: 200px;
+            height: 30px;
+        }
+        #hr
+        {
+            width: 80%;
+            margin-top: 10%;
+        }
+        #fixed
+        {
+            margin-left: 12%;
+        }
+        #input
+        {
+            margin-top: 10px;
+            width:200px;
+            height: 25px;
+            margin-left: 10%;
+            border-radius: 5px;
+        }
+        #flexRepos
+        {
+            display: flex;
+        }
+        #repose_front_img
+        {
+            margin-left: 10%;
+            margin-top: 10px;
+            width: 25px;
+            height: 25px;
+            border-radius: 12px;
+        }
+        #forEach_Data_map
+        {
+            margin-top: 10px;  
+            margin-left: 5px;
+        }
+        #letssetthe
+        {
+            margin-left: 10%;
+
+        }
+        #fixed2
+        {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        #rigth_portion
+        {
+            border: 1px solid silver;
+            background-color: darkgray;
+        }
+        #rigth_portion>h3
+        {
+            margin-left: 60px;
+            margin-top: 20px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        #rigth_Describe
+        {
+            background-color: whitesmoke;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+
+        }
+        #rigth_portion>#rigth_Describe
+        {
+            margin-left: 60px;
+            margin-top: 20px;
+            font-weight: 400;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+        }
+        #rigth_Describe>:nth-child(1)
+        {
+            font-size: 36px;
+        }
+
+        button{
+            margin-top: 40px;
+            width: 200px;
+            height: 30px;
+            color: blue;
+            font-weight: 600;
+            border-radius: 2px;
+            border-collapse: collapse;
+        }
+        button:hover
+        {
+            cursor: pointer;
+            background-color:blue;
+            color:white;
+        }
+        span{
+            color:blue;
+            cursor: pointer;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="cont"></div>
+    <div id="body">
+        <div id="left_portion"></div>
+        <hr>     
+        <div id="rigth_portion">
+            <h3>All activity</h3>
+            <div id="rigth_Describe">
+                <div>Discover interesting projects and people to populate your personal news feed.</div>
+                <div>Your news feed helps you keep up with recent activity on repositories you <span>watch</span> or <span>star</span> and people you <span>follow</span>.</div>
+                <button>Explore GitHub</button>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</body>
+</html>
+<script type="module">
+import forAll from "./JSfiles/bavbar.js";
+
+import getUSer from "./script/getUSer.js";
+
+import repository from "./script/repositoryCall.js"
+
+    let x =document.querySelector("#cont")
+    x.innerHTML =forAll();  // navbar html code appending with the help of import and  export
+
+    let response;
+    let input = document.getElementById("search-input")
+        input.addEventListener("keypress",searchUser)
+
+        async function  searchUser(event)
+        {
+            // console.log(event)
+            // event.prevenyDefault()
+            if(event.key=="Enter")
+            {
+                // console.log("event:", event)
+
+                let query = input.value||Shoaib-Ahmed16;
+                console.log(query)
+
+                // let github_api =`https://api.github.com/users/${query}`
+               response = await getUSer(query)
+
+               console.log("Response:",response)
+
+            //    let img_profile =document.getElementById("profile-img").src=response.avatar_url
+
+                let {avatar_url} =response; //another way to append the image
+                let {login} = response;
+                
+                let img_profile =document.getElementById("profile-img").src=avatar_url
+
+                let prof_img =document.createElement("img")
+                    prof_img.setAttribute("id","set_image_size")
+                    prof_img.src=avatar_url
+
+
+                let username =document.createElement("div")
+                    username.setAttribute("id","name_Resize")
+                    username.innerHTML = login
+                
+
+                let div =document.createElement("div")
+                    div.setAttribute("id","put_username_image")
+
+                let hr = document.createElement("hr")
+                    hr.setAttribute("id","hr")
+                div.append(prof_img,username)
+
+                let div2 = document.createElement("div")
+                    div2.setAttribute("id","fixed")
+                    div2.innerHTML="Repositories"
+
+                
+                let find =document.createElement("input")
+                    find.setAttribute("id","input")
+                    find.setAttribute("placeholder","Find a Repository ...")
+                    find.setAttribute("type","text")
+
+                let repository_append =document.createElement("div")
+                    repository_append.setAttribute("id","repository")
+
+                document.getElementById("left_portion").append(div,hr,div2,find)
+
+            }
+
+            let repos_url  = response.repos_url
+            console.log("repos_url",repos_url)
+
+            let user_image =response.avatar_url;
+
+            let info = await repository(repos_url)
+            console.log("info:",info)
+            info.forEach( ({full_name})=>{
+
+                let img =document.createElement("img")
+                    img.setAttribute("id","repose_front_img")
+                    img.src =user_image;
+
+                let div = document.createElement("div")
+                    div.setAttribute("id","forEach_Data_map")
+                
+                div.innerHTML=full_name;
+
+                let a =document.createElement("a")
+                    a.href ="https://github.com/shoaib-ahmed16/Unit3_Evalution"
+                
+                    a.append(div)
+                
+                let div2 =document.createElement("div")
+                    div2.setAttribute("id","flexRepos")
+                
+                div2.append(img,a)
+
+                document.getElementById("left_portion").append(div2)
+
+            })
+
+            let hr1 = document.createElement("hr")
+                    hr.setAttribute("id","hr")
+            
+            let hr2 = document.createElement("hr")
+            hr.setAttribute("id","hr")
+
+            let div_recent =document.createElement("div")
+                div_recent.setAttribute("id","fixed2")
+                div_recent.innerHTML="Recent activity";
+
+            let div_describe = document.createElement("div")
+                div_describe.innerHTML="When you take actions across GitHub, we will provide links to that activity here."
+            
+            let append_div =document.createElement("div")
+                append_div.setAttribute("id","letssetthe")
+                append_div.append(hr1,div_recent,div_describe,hr2)
+            document.getElementById("left_portion").append(append_div)
+
+        }
+
+        
+</script>

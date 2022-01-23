@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #body
+        {
+            width: 90%;
+            margin: auto;
+            background-color:transparent;
+        }
+        #githubLayout
+        {
+            width: 30%;
+            border: 1px solid transparent;
+            margin: auto;
+            justify-content: center;
+        }
+        #git_form
+        {
+            width: 380px;
+            margin: auto;
+            margin-top: 10px;
+            height: auto;
+            background-color: whitesmoke;
+            padding-top: 20px ;
+            border: 0.5px solid rgba(169, 169, 169, 0.541);
+            border-radius: 5px;
+            padding-bottom: 20px;
+        }
+        h1{
+            margin-left: 90px;
+            line-height: 10px;
+            font-weight: 400;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        label{
+            margin:40px;
+            width: 300px;
+            height: 40px;
+            color: black;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        input{
+            width: 300px;
+            height: 30px;
+            color: black;
+            margin-left: 40px;
+            font-size: 18px;
+            margin-top: 10px;
+            padding-left: 10px;
+            border-radius: 5px;
+            border: 0.5px solid darkgray;
+        }
+        #submit_input
+        {
+            background-color: green;
+            color: white;
+        }
+        a{
+            margin-left: 70px;
+        }
+        #github_offical_image{
+            margin-top: 40px;
+            width: 80px;
+            height: 80px;
+            margin-left: 160px;
+        }
+        #creat_account
+        {
+            border: 0.5px solid rgba(169, 169, 169, 0.473);
+            width: 25%;
+            margin: auto;
+            margin-top: 40px;
+            padding-left: 40px;
+            justify-content: center;
+            font-size: 20px;
+            background-color: whitesmoke;
+            padding-bottom: 20px;
+            padding-top: 20px;
+            border-radius: 5px;
+            font-weight: 300px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+        }
+        span{
+            color:blue;
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="body">
+        <div id="githubLayout">
+            <img id="github_offical_image" src="./images/Github_icon-icons.com_49946.png">
+            <h1>Sign in to GitHub</h1>
+            <form id="git_form">
+                <label>Username or email address</label><br>
+                <input type="text" id="username"  placeholder="Enter User Name" /><br><br>
+                <label>Password</label> <a href="explore.html">Forget Password?</a><br>
+                <input type="password" id="password" placeholder="**************" /><br><br>
+                <input id="submit_input" type="submit" onclick="login(event)" value="Sign In"/>
+            </form>
+        </div>
+        <div id="creat_account">New to GitHub?<span>Create an account</span></div>
+    </div>
+    
+</body>
+</html>
+<script>
+
+    async function login(event)
+    {
+        event.preventDefault()
+        let login_data;
+        try{
+            login_data ={
+                username:git_form.username.value,
+                password:git_form.password.value,
+            }
+
+            login_data =JSON.stringify(login_data)
+        }
+        catch (e)
+        {
+            console.log("error: line 131",e)
+        }
+        let login_url =`https://masai-api-mocker.herokuapp.com/auth/login`
+
+        let response = await fetch(login_url,{
+            method:"POST",
+            body: login_data,
+
+            headers:{
+                "Content-Type" : "application/json",
+            },
+        })
+
+        let data = await response.json()
+
+        let x =data.token
+        console.log("Line 142:",data.token)
+        
+        alert(`Token value obtion when we successfully login:${data.token}`)
+        window.location.href="/githubHome.html"
+    }
+
+</script>
